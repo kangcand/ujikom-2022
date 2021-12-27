@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\ArticleCategoryController;
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\ArticleTagController;
+use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,12 +32,17 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']],
     function () {
         Route::get('/', function () {
-            return 'halaman admin';
+            return view('admin.index');
         });
+        // article route
+        Route::resource('article-category', ArticleCategoryController::class);
+        Route::resource('article-tag', ArticleTagController::class);
+        Route::resource('article', ArticleController::class);
 
-        Route::get('profile', function () {
-            return 'halaman profile admin';
-        });
+        // product route
+        Route::resource('product-category', ProductCategoryController::class);
+        Route::resource('product-tag', ProductTagController::class);
+        Route::resource('product', ProductController::class);
 
     });
 

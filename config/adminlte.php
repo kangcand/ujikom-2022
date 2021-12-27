@@ -247,17 +247,46 @@ return [
             'can' => 'manage-blog',
         ],
         [
-            'text' => 'pages',
-            'url' => 'admin/pages',
+            'text' => 'Dashboard',
+            'url' => 'admin/',
             'icon' => 'far fa-fw fa-file',
-            'label' => 4,
             'label_color' => 'success',
         ],
         [
-            'text' => 'Category',
-            'url' => 'admin/category',
-            'icon' => 'far fa-fw fa-file',
-            'label_color' => 'success',
+            'text' => 'Article Management',
+            'icon' => 'fas fa-fw fa-newspaper',
+            'submenu' => [
+                [
+                    'text' => 'Category',
+                    'url' => 'admin/article-category',
+                ],
+                [
+                    'text' => 'Article',
+                    'url' => 'admin/article',
+                ],
+                [
+                    'text' => 'Tag',
+                    'url' => 'admin/article-tag',
+                ],
+            ],
+        ],
+        [
+            'text' => 'Product Management',
+            'icon' => 'fas fa-fw fa-shopping-cart',
+            'submenu' => [
+                [
+                    'text' => 'Category Product',
+                    'url' => 'admin/product-category',
+                ],
+                [
+                    'text' => 'Product',
+                    'url' => 'admin/product',
+                ],
+                [
+                    'text' => 'Payment',
+                    'url' => 'admin/payment',
+                ],
+            ],
         ],
         ['header' => 'account_settings'],
         [
@@ -269,44 +298,6 @@ return [
             'text' => 'change_password',
             'url' => 'admin/settings',
             'icon' => 'fas fa-fw fa-lock',
-        ],
-        [
-            'text' => 'multilevel',
-            'icon' => 'fas fa-fw fa-share',
-            'submenu' => [
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                ],
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                        ],
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                ],
-            ],
         ],
         ['header' => 'labels'],
         [
