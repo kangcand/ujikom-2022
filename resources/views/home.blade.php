@@ -27,11 +27,11 @@
                         @endif
 
                         @role('admin')
-                            Role Admin {{ \Laratrust::hasRole('admin') }}
+                            Welcoma back <strong>{{ Auth::user()->name }}</strong>
                         @endrole
 
                         @role('member')
-                            Role member {{ \Laratrust::hasRole('member') }}
+                            Welcoma member <strong>{{ Auth::user()->name }}</strong>
                         @endrole
                     </div>
                 </div>
