@@ -5,11 +5,16 @@
 @endsection
 
 @section('css')
-
+    <link rel="stylesheet" href="{{ asset('DataTables/datatables.min.css') }}">
 @endsection
 
 @section('js')
-
+    <script src="{{ asset('DataTables/datatables.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable();
+        });
+    </script>
 @endsection
 
 @section('content')
@@ -20,7 +25,26 @@
                     <div class="card-header">{{ __('Dashboard') }}</div>
 
                     <div class="card-body">
-                        Product Categories Page
+                        <div class="table-responsive">
+                            <table class="table" id="example">
+                                <thead>
+                                    <tr>
+                                        <th>Kolom 1</th>
+                                        <th>Kolom 2</th>
+                                        <th>Kolom 3</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{-- @foreach() --}}
+                                        <tr>
+                                            <td>Isi Kolom 1</td>
+                                            <td>Isi Kolom 2</td>
+                                            <td>Isi Kolom 3</td>
+                                        </tr>
+                                    {{-- @endforeach --}}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

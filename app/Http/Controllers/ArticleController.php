@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\ArticleCategory;
+use App\Models\ArticleTag;
+use Auth;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -14,7 +17,8 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        return view('admin.article.index');
+        $articles = Article::all();
+        return view('admin.article.index', compact('articles'));
 
     }
 
@@ -25,7 +29,10 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        //
+        $category = ArticleCategory::all();
+        $tag = ArticleTag::all();
+        return view('admin.article.create', compact('category', 'tag'));
+
     }
 
     /**
@@ -36,7 +43,36 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|unique:articles',
+            'content' => 'required',
+            'category_id' => 'required',
+            'tag' => 'required',
+            'image' => 'required|image|max:2048',
+        ]);
+
+        $article = new Article;
+        $article->title = $request->title;
+        $article->slug = Str::slug('$request->title', '-') . Str::random(6);
+        $article->user_id = Auth::user()->id;
+        $article->content = $request->content;
+        // upload image / foto
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $name = rand(1000, 9999) . $image->getClientOriginalName();
+            $image->move('images/books/', $name);
+            $article->image = $name;
+        }
+        $article->category_id = $request->category_id;
+        $article->save();
+        $article->ArticleTag()->attach($request->tags);
+
+        Session::flash("flash_notification", [
+            "level" => "success",
+            "message" => "data berhasil dibuat",
+        ]);
+        return redirect()->route('books.index');
+
     }
 
     /**
@@ -45,9 +81,10 @@ class ArticleController extends Controller
      * @param  \App\Models\Article  $article
      * @return \Illuminate\Http\Response
      */
-    public function show(Article $article)
+    public function show($id)
     {
-        //
+        $article = Article::findOrFail($id);
+        return view('admin.article.show', compact('article'));
     }
 
     /**
@@ -58,7 +95,11 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        //
+        $category = ArticleCategory::all();
+        $tag = ArticleTag::all();
+        $article = Article::findOrFail($id);
+        return view('admin.article.show', compact('article', 'tag', 'category'));
+
     }
 
     /**
@@ -68,9 +109,40 @@ class ArticleController extends Controller
      * @param  \App\Models\Article  $article
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Article $article)
+    public function update(Request $request, $id)
     {
-        //
+        $article = Article::findOrFail($id);
+        $request->validate([
+            'title' => 'required|unique:articles',
+            'content' => 'required',
+            'category_id' => 'required',
+            'tag' => 'required',
+            'image' => 'required|image|max:2048',
+        ]);
+
+        $article = new Article;
+        $article->title = $request->title;
+        $article->slug = Str::slug('$request->title', '-') . Str::random(6);
+        $article->user_id = Auth::user()->id;
+        $article->content = $request->content;
+        // upload image / foto
+        if ($request->hasFile('image')) {
+            $article->deleteImage();
+            $image = $request->file('image');
+            $name = rand(1000, 9999) . $image->getClientOriginalName();
+            $image->move('images/books/', $name);
+            $article->image = $name;
+        }
+        $article->category_id = $request->category_id;
+        $article->save();
+        $article->ArticleTag()->attach($request->tags);
+
+        Session::flash("flash_notification", [
+            "level" => "success",
+            "message" => "Data edited successfully",
+        ]);
+        return redirect()->route('article.index');
+
     }
 
     /**
@@ -79,8 +151,17 @@ class ArticleController extends Controller
      * @param  \App\Models\Article  $article
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Article $article)
+    public function destroy($article)
     {
-        //
+        $article = Article::findOrFail($id);
+        $article->deleteImage();
+        $article->delete();
+        Session::flash("flash_notification", [
+            "level" => "success",
+            "message" => "Data deleted successfully",
+        ]);
+
+        return redirect()->route('article.index');
+
     }
 }

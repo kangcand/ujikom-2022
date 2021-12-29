@@ -108,7 +108,10 @@ class ArticleCategoryController extends Controller
      */
     public function destroy($id)
     {
-        $categories = ArticleCategory::findOrFail($id)->delete();
+
+        if (!ArticleCategory::destroy($id)) {
+            return redirect()->back();
+        }
         Session::flash("flash_notification", [
             "level" => "success",
             "message" => "Data deleted successfully",

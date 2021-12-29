@@ -4,18 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\ArticleTag;
 use Illuminate\Http\Request;
+use Session;
+use Str;
 
 class ArticleTagController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        return view('admin.articleTag.index');
-
+        $no = 1;
+        $tags = ArticleTag::all();
+        return view('admin.articleTag.index', compact('no', 'tags'));
     }
 
     /**
@@ -36,16 +35,28 @@ class ArticleTagController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|unique:article_tags',
+        ]);
+
+        $tags = new ArticleTag;
+        $tags->name = $request->name;
+        $tags->slug = Str::slug($request->name, '-');
+        $tags->save();
+        Session::flash("flash_notification", [
+            "level" => "success",
+            "message" => "Data saved successfully",
+        ]);
+        return redirect()->route('article-tag.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ArticleTag  $articleTag
+     * @param  \App\Models\ArticleTag  $ArticleTag
      * @return \Illuminate\Http\Response
      */
-    public function show(ArticleTag $articleTag)
+    public function show(ArticleTag $ArticleTag)
     {
         //
     }
@@ -53,10 +64,10 @@ class ArticleTagController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ArticleTag  $articleTag
+     * @param  \App\Models\ArticleTag  $ArticleTag
      * @return \Illuminate\Http\Response
      */
-    public function edit(ArticleTag $articleTag)
+    public function edit($id)
     {
         //
     }
@@ -65,22 +76,42 @@ class ArticleTagController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ArticleTag  $articleTag
+     * @param  \App\Models\ArticleTag  $ArticleTag
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ArticleTag $articleTag)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+        ]);
+
+        $tags = ArticleTag::findOrFail($id);
+        $tags->name = $request->name;
+        $tags->slug = Str::slug($request->name, '-');
+        $tags->save();
+        Session::flash("flash_notification", [
+            "level" => "success",
+            "message" => "Data edited successfully",
+        ]);
+        return redirect()->route('article-tag.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ArticleTag  $articleTag
+     * @param  \App\Models\ArticleTag  $ArticleTag
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ArticleTag $articleTag)
+    public function destroy($id)
     {
-        //
+
+        if (!ArticleTag::destroy($id)) {
+            return redirect()->back();
+        }
+        Session::flash("flash_notification", [
+            "level" => "success",
+            "message" => "Data deleted successfully",
+        ]);
+        return redirect()->route('article-tag.index');
     }
 }
