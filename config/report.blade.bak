@@ -1,0 +1,27 @@
+<?php
+// ReportController.php
+public function laporan(Request $request)
+    {
+        $start = $request->tanggalAwal;
+        $end = $request->tanggalAkhir;
+
+        $users = Model::select("*")
+                        ->whereBetween('fieldTanggal', [$start, $end])
+                        ->get();
+
+        return view('terserah')
+    }
+
+// view.blade.php
+<form method="post" action="{{route('laporan')}}">
+    @csrf
+    <input type="date" name="tanggalAwal">
+    <input type="date" name="tanggalAkhir">
+    <input type="submit" value="Cari Data">
+</form>
+
+
+// route
+
+Route::get('laporan', [ReportController::class, 'laporan'])->name('getLaporan');
+Route::post('laporan', [ReportController::class, 'laporan'])->name('laporan');

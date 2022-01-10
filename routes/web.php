@@ -3,6 +3,7 @@
 use App\Http\Controllers\ArticleCategoryController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ArticleTagController;
+use App\Http\Controllers\FrontController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
@@ -17,10 +18,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
  */
-
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Auth::routes([
     'register' => false,
@@ -56,5 +53,14 @@ Route::group(['prefix' => 'member', 'middleware' => ['auth', 'role:member|admin'
         Route::get('profile', function () {
             return 'halaman profile member';
         });
+
+    });
+
+// front Route
+Route::group(['prefix' => '/'],
+    function () {
+        Route::get('/', [FrontController::class, 'index']);
+        Route::get('blog', [FrontController::class, 'blog']);
+        Route::get('blog/{blog}', [FrontController::class, 'singleBlog']);
 
     });
