@@ -22,11 +22,11 @@
 @endsection
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset('dataTables/datatables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('DataTables/datatables.min.css') }}">
 @endsection
 
 @section('js')
-    <script src="{{ asset('dataTables/datatables.min.js') }}"></script>
+    <script src="{{ asset('DataTables/datatables.min.js') }}"></script>
     <script>
         $(document).ready(function() {
             $('#article').DataTable();
@@ -40,7 +40,7 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">Article article
+                    <div class="card-header">Article
                         <a href="{{ route('article.create') }}" style="float: right;"
                             class="btn btn-sm  btn-outline-primary">Add Data
                         </a>
@@ -51,9 +51,11 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Author</th>
                                         <th>Title</th>
+                                        <th>Author</th>
                                         <th>Image</th>
+                                        <th>Category</th>
+                                        <th>Tags</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -61,8 +63,18 @@
                                     @foreach ($articles as $article)
                                         <tr>
                                             <td>{{ $no++ }}</td>
-                                            <td>{{ $article->name }}</td>
-                                            <td>{{ $article->slug }}</td>
+                                            <td>{{ $article->title }}</td>
+                                            <td>{{ $article->User->name }}</td>
+                                            <td>
+                                                <img src="{{ $article->image() }}" value="{{ $article->image }}"
+                                                    style="height: 100px; width:100px;" alt="">
+                                            </td>
+                                            <td>{{ $article->Category->name }}</td>
+                                            <td>
+                                                @foreach ($article->ArticleTag as $tags)
+                                                    <li>{{ $tags->name }}</li>
+                                                @endforeach
+                                            </td>
                                             <td>
                                                 <form action="{{ route('article.destroy', $article->id) }}" method="post">
                                                     @method('delete')
@@ -86,4 +98,6 @@
             </div>
         </div>
     </div>
+
+
 @endsection

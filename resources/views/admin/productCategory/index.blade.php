@@ -25,6 +25,7 @@
                     <div class="card-header">{{ __('Dashboard') }}</div>
 
                     <div class="card-body">
+                        <-- DataTable !-->
                         <div class="table-responsive">
                             <table class="table" id="example">
                                 <thead>
@@ -45,6 +46,7 @@
                                 </tbody>
                             </table>
                         </div>
+                        <-- End Data Table !-->
                     </div>
                 </div>
             </div>

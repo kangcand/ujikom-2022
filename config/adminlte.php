@@ -14,7 +14,7 @@ return [
     |
      */
 
-    'title' => 'AdminLTE 3',
+    'title' => 'Admin Dashboard',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -253,8 +253,16 @@ return [
             'label_color' => 'success',
         ],
         [
+            'text' => 'User Management',
+            'url' => 'admin/',
+            'icon' => 'far fa-fw fa-file',
+            'label_color' => 'success',
+            'can' => 'AksesAdmin'
+        ],
+        [
             'text' => 'Article Management',
             'icon' => 'fas fa-fw fa-newspaper',
+            'can' => ['AksesAdmin','AksesMember'],
             'submenu' => [
                 [
                     'text' => 'Category',
@@ -273,6 +281,7 @@ return [
         [
             'text' => 'Product Management',
             'icon' => 'fas fa-fw fa-shopping-cart',
+            'can' => 'ordersAdmin',
             'submenu' => [
                 [
                     'text' => 'Category Product',

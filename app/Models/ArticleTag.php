@@ -15,9 +15,10 @@ class ArticleTag extends Model
     {
         return $this->belongsToMany(
             'App\Models\Article',
-            'tag_id',
             'article_tag',
-            'article_id');
+            'tag_id',
+            'article_id',
+        );
     }
 
     // model event

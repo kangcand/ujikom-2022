@@ -27,11 +27,16 @@
 @endsection
 
 @section('css')
-
+    <link href="{{ asset('select2/select2.min.css') }}" rel="stylesheet" />
 @endsection
 
 @section('js')
-
+    <script src="{{ asset('select2/select2.min.js')}}"></script>
+    <script>
+        $(document).ready(function() {
+            $('.multiple').select2();
+        });
+    </script>
 @endsection
 
 @section('content')
@@ -41,9 +46,6 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">Add Article
-                        <a href="{{ route('article.index') }}" style="float: right;"
-                            class="btn btn-sm  btn-outline-primary">Back
-                        </a>
                     </div>
                     <div class="card-body">
                         <form action="{{ route('article.store') }}" method="post" enctype="multipart/form-data">
@@ -64,13 +66,14 @@
                                 <label for="">Category</label>
                                 <select name="category_id" class="form-control" id="">
                                     @foreach ($category as $data)
-                                        <option value="{{ $data->id }}">{{ $data->name }}</option>
+                                        <option style="background-color: #414350" value="{{ $data->id }}">
+                                            {{ $data->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="">Tags</label>
-                                <select name="tags" class="form-control" id="">
+                                <select name="tags[]" class="form-control multiple" id="" multiple="multiple">
                                     @foreach ($tag as $data)
                                         <option value="{{ $data->id }}">{{ $data->name }}</option>
                                     @endforeach

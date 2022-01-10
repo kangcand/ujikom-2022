@@ -7,6 +7,8 @@ use App\Models\ArticleCategory;
 use App\Models\ArticleTag;
 use Auth;
 use Illuminate\Http\Request;
+use Session;
+use Str;
 
 class ArticleController extends Controller
 {
@@ -17,8 +19,9 @@ class ArticleController extends Controller
      */
     public function index()
     {
+        $no = 1;
         $articles = Article::all();
-        return view('admin.article.index', compact('articles'));
+        return view('admin.article.index', compact('articles', 'no'));
 
     }
 
@@ -47,20 +50,20 @@ class ArticleController extends Controller
             'title' => 'required|unique:articles',
             'content' => 'required',
             'category_id' => 'required',
-            'tag' => 'required',
+            'tags' => 'required',
             'image' => 'required|image|max:2048',
         ]);
 
         $article = new Article;
         $article->title = $request->title;
-        $article->slug = Str::slug('$request->title', '-') . Str::random(6);
+        $article->slug = Str::slug($request->title, '-') . Str::random(6);
         $article->user_id = Auth::user()->id;
         $article->content = $request->content;
         // upload image / foto
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $name = rand(1000, 9999) . $image->getClientOriginalName();
-            $image->move('images/books/', $name);
+            $image->move('images/article/', $name);
             $article->image = $name;
         }
         $article->category_id = $request->category_id;
@@ -71,7 +74,7 @@ class ArticleController extends Controller
             "level" => "success",
             "message" => "data berhasil dibuat",
         ]);
-        return redirect()->route('books.index');
+        return redirect()->route('article.index');
 
     }
 
@@ -93,7 +96,7 @@ class ArticleController extends Controller
      * @param  \App\Models\Article  $article
      * @return \Illuminate\Http\Response
      */
-    public function edit(Article $article)
+    public function edit($id)
     {
         $category = ArticleCategory::all();
         $tag = ArticleTag::all();
@@ -122,7 +125,7 @@ class ArticleController extends Controller
 
         $article = new Article;
         $article->title = $request->title;
-        $article->slug = Str::slug('$request->title', '-') . Str::random(6);
+        $article->slug = Str::slug($request->title, '-') . Str::random(6);
         $article->user_id = Auth::user()->id;
         $article->content = $request->content;
         // upload image / foto
@@ -130,7 +133,7 @@ class ArticleController extends Controller
             $article->deleteImage();
             $image = $request->file('image');
             $name = rand(1000, 9999) . $image->getClientOriginalName();
-            $image->move('images/books/', $name);
+            $image->move('images/article/', $name);
             $article->image = $name;
         }
         $article->category_id = $request->category_id;
@@ -151,11 +154,12 @@ class ArticleController extends Controller
      * @param  \App\Models\Article  $article
      * @return \Illuminate\Http\Response
      */
-    public function destroy($article)
+    public function destroy($id)
     {
         $article = Article::findOrFail($id);
         $article->deleteImage();
         $article->delete();
+        $article->ArticleTag()->detach();
         Session::flash("flash_notification", [
             "level" => "success",
             "message" => "Data deleted successfully",

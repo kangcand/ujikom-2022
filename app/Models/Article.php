@@ -25,17 +25,18 @@ class Article extends Model
     public function ArticleTag()
     {
         return $this->belongsToMany(
-            'App\Models\Article',
+            'App\Models\ArticleTag',
             'article_tag',
-            'tag_id',
-            'article_id');
+            'article_id',
+            'tag_id'
+        );
     }
 
     // image
     public function image()
     {
-        if ($this->cover && file_exists(public_path('images/books/' . $this->image))) {
-            return asset('images/articles/' . $this->image);
+        if ($this->image && file_exists(public_path('images/article/' . $this->image))) {
+            return asset('images/article/' . $this->image);
         } else {
             return asset('images/no_image.jpg');
         }
@@ -43,8 +44,8 @@ class Article extends Model
 
     public function deleteImage()
     {
-        if ($this->image && file_exists(public_path('images/articles/' . $this->image))) {
-            return unlink(public_path('images/articles/' . $this->image));
+        if ($this->image && file_exists(public_path('images/article/' . $this->image))) {
+            return unlink(public_path('images/article/' . $this->image));
         }
 
     }

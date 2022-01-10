@@ -29,8 +29,8 @@ class ArticleCategory extends Model
                 // menyiapkan pesan error
                 $html = 'Category can not be deleted because it still has article : ';
                 $html .= '<ul>';
-                foreach ($category->Article as $categories) {
-                    $html .= "<li>$categories->title</li>";
+                foreach ($category->Article as $article) {
+                    $html .= "<li>$article->title</li>";
                 }
                 $html .= '</ul>';
                 Session::flash("flash_notification", [
