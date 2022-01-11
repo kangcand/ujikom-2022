@@ -254,15 +254,15 @@ return [
         ],
         [
             'text' => 'User Management',
-            'url' => 'admin/',
-            'icon' => 'far fa-fw fa-file',
+            'url' => 'admin/users',
+            'icon' => 'far fa-fw fa-user',
             'label_color' => 'success',
-            'can' => 'AksesAdmin'
+            'can' => 'AksesAdmin',
         ],
         [
             'text' => 'Article Management',
             'icon' => 'fas fa-fw fa-newspaper',
-            'can' => ['AksesAdmin','AksesMember'],
+            'can' => ['AksesAdmin', 'AksesMember'],
             'submenu' => [
                 [
                     'text' => 'Category',
