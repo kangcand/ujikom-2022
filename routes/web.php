@@ -6,6 +6,7 @@ use App\Http\Controllers\ArticleTagController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +34,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']],
 
         // user management
         Route::resource('users', UserController::class);
+
+        // report
+        Route::get('laporan-article', [ReportController::class, 'article'])->name('getArticle');
+        Route::post('laporan-article', [ReportController::class, 'reportArticle'])->name('reportArticle');
 
     });
 
