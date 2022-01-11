@@ -47,7 +47,7 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
         $user->save();
-        $user->attachRole($request->role);
+        $user->attachRoles($request->role);
         Session::flash("flash_notification", [
             "level" => "success",
             "message" => "Data saved successfully",
