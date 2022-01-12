@@ -44,12 +44,23 @@ class KategoriController extends Controller
 
     public function show($id)
     {
-        $kategori = ArticleCategory::findOrFail($id);
-        return response()->json([
-            'success' => true,
-            'message' => 'Show Data Kategori',
-            'data' => $kategori,
-        ], 200);
+
+        $kategori = ArticleCategory::find($id);
+        if ($kategori) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Show Data Kategori',
+                'data' => $kategori,
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Kategori tidak ditemukan',
+                'data' => [],
+            ], 404);
+
+        }
+
     }
 
     public function edit($id)
