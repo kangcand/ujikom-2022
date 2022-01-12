@@ -29,7 +29,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']],
 
         // product route
         Route::resource('product-category', ProductCategoryController::class);
-        Route::resource('product-tag', ProductTagController::class);
+        // Route::resource('product-tag', ProductTagController::class);
         Route::resource('product', ProductController::class);
 
         // user management

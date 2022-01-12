@@ -29,59 +29,57 @@ class KategoriController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $kategori = new ArticleCategory();
+        $kategori->name = $request->name;
+        $kategori->slug = $request->slug;
+        $kategori->save();
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Kategori Berhasil dibuat',
+            'data' => $kategori,
+        ], 201);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //
+        $kategori = ArticleCategory::findOrFail($id);
+        return response()->json([
+            'success' => true,
+            'message' => 'Show Data Kategori',
+            'data' => $kategori,
+        ], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        $kategori = ArticleCategory::findOrFail($id);
+        $kategori->name = $request->name;
+        $kategori->slug = $request->slug;
+        $kategori->save();
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Kategori Berhasil diedit',
+            'data' => $kategori,
+        ], 201);
+
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        $kategori = ArticleCategory::findOrFail($id);
+        $kategori->delete();
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Kategori Berhasil hapus',
+            'data' => $kategori,
+        ], 200);
+
     }
 }
