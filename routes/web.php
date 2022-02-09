@@ -6,6 +6,7 @@ use App\Http\Controllers\ArticleTagController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductTagController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -29,7 +30,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']],
 
         // product route
         Route::resource('product-category', ProductCategoryController::class);
-        // Route::resource('product-tag', ProductTagController::class);
+        Route::resource('product-tag', ProductTagController::class);
         Route::resource('product', ProductController::class);
 
         // user management
@@ -47,7 +48,6 @@ Route::group(['prefix' => 'member', 'middleware' => ['auth', 'role:member|admin'
         Route::get('/', function () {
             return 'halaman member';
         });
-
         Route::get('profile', function () {
             return 'halaman profile member';
         });
@@ -55,10 +55,11 @@ Route::group(['prefix' => 'member', 'middleware' => ['auth', 'role:member|admin'
     });
 
 // front Route
-Route::group(['prefix' => '/'],
-    function () {
-        Route::get('/', [FrontController::class, 'index']);
-        Route::get('blog', [FrontController::class, 'blog']);
-        Route::get('blog/{blog}', [FrontController::class, 'singleBlog']);
+Route::group(['prefix' => '/'], function () {
+    Route::get('/', [FrontController::class, 'index']);
+    Route::get('blog', [FrontController::class, 'blog']);
+    Route::get('blog/{article}', [FrontController::class, 'singleBlog']);
+    Route::get('blog-tag/{tag}', [FrontController::class, 'blogtag']);
+    Route::get('blog-category/{category}', [FrontController::class, 'blogcategory']);
 
-    });
+});

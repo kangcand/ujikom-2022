@@ -22,11 +22,11 @@
 @endsection
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset('dataTables/datatables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('DataTables/datatables.min.css') }}">
 @endsection
 
 @section('js')
-    <script src="{{ asset('dataTables/datatables.min.js') }}"></script>
+    <script src="{{ asset('DataTables/datatables.min.js') }}"></script>
     <script>
         $(document).ready(function() {
             $('#articleTag').DataTable();

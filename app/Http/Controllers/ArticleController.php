@@ -51,22 +51,23 @@ class ArticleController extends Controller
             'content' => 'required',
             'category_id' => 'required',
             'tags' => 'required',
-            'image' => 'required|image|max:2048',
+            'foto' => 'required|image|max:2048',
         ]);
 
-        $article = new Article;
+        $article = new Article();
         $article->title = $request->title;
         $article->slug = Str::slug($request->title, '-') . Str::random(6);
         $article->user_id = Auth::user()->id;
         $article->content = $request->content;
         // upload image / foto
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
+        if ($request->hasFile('foto')) {
+            $image = $request->file('foto');
             $name = rand(1000, 9999) . $image->getClientOriginalName();
             $image->move('images/article/', $name);
-            $article->image = $name;
+            $article->foto = $name;
         }
         $article->category_id = $request->category_id;
+        // dd($article->foto);
         $article->save();
         $article->ArticleTag()->attach($request->tags);
 
@@ -101,7 +102,8 @@ class ArticleController extends Controller
         $category = ArticleCategory::all();
         $tag = ArticleTag::all();
         $article = Article::findOrFail($id);
-        return view('admin.article.show', compact('article', 'tag', 'category'));
+        $selectTag = ArticleTag::with('article')->pluck('id')->toArray();
+        return view('admin.article.edit', compact('article', 'tag', 'category', 'selectTag'));
 
     }
 
@@ -116,30 +118,31 @@ class ArticleController extends Controller
     {
         $article = Article::findOrFail($id);
         $request->validate([
-            'title' => 'required|unique:articles',
+            'title' => 'required|',
             'content' => 'required',
             'category_id' => 'required',
-            'tag' => 'required',
-            'image' => 'required|image|max:2048',
+            'tags' => 'required',
+            // 'foto' => 'required|image|max:2048',
         ]);
 
-        $article = new Article;
+        $article = Article::findOrFail($id);
         $article->title = $request->title;
         $article->slug = Str::slug($request->title, '-') . Str::random(6);
         $article->user_id = Auth::user()->id;
         $article->content = $request->content;
+        $article->category_id = $request->category_id;
         // upload image / foto
-        if ($request->hasFile('image')) {
+        if ($request->hasFile('foto')) {
             $article->deleteImage();
-            $image = $request->file('image');
+            $image = $request->file('foto');
             $name = rand(1000, 9999) . $image->getClientOriginalName();
             $image->move('images/article/', $name);
-            $article->image = $name;
+            $article->foto = $name;
         }
-        $article->category_id = $request->category_id;
-        $article->save();
-        $article->ArticleTag()->attach($request->tags);
 
+        $article->save();
+        $article->ArticleTag()->sync($request->tags);
+        // dd($request->image);
         Session::flash("flash_notification", [
             "level" => "success",
             "message" => "Data edited successfully",
@@ -164,7 +167,6 @@ class ArticleController extends Controller
             "level" => "success",
             "message" => "Data deleted successfully",
         ]);
-
         return redirect()->route('article.index');
 
     }

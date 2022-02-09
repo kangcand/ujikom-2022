@@ -9,7 +9,7 @@ class Article extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'slug', 'category_id', 'image', 'content', 'user_id'];
+    protected $fillable = ['title', 'slug', 'category_id', 'foto', 'content', 'user_id'];
     public $timestamps = true;
 
     public function Category()
@@ -35,8 +35,8 @@ class Article extends Model
     // image
     public function image()
     {
-        if ($this->image && file_exists(public_path('images/article/' . $this->image))) {
-            return asset('images/article/' . $this->image);
+        if ($this->foto && file_exists(public_path('images/article/' . $this->foto))) {
+            return asset('images/article/' . $this->foto);
         } else {
             return asset('images/no_image.jpg');
         }
@@ -44,9 +44,14 @@ class Article extends Model
 
     public function deleteImage()
     {
-        if ($this->image && file_exists(public_path('images/article/' . $this->image))) {
-            return unlink(public_path('images/article/' . $this->image));
+        if ($this->foto && file_exists(public_path('images/article/' . $this->foto))) {
+            return unlink(public_path('images/article/' . $this->foto));
         }
 
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 }

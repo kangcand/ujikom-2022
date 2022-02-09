@@ -10,8 +10,12 @@
 
 <body>
     @foreach ($article ?? '' as $data)
-        {{ $data->title }}
+        {{ $data->title }} -
+        {{ $data->created_at->format('d M Y') }}<br>
     @endforeach
+
+    total penulis : {{ $total_pengguna->total_pengguna }}
+    <br><button>Export PDF</button>
 </body>
 
 </html>

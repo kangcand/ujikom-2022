@@ -31,6 +31,7 @@ class KategoriController extends Controller
 
     public function store(Request $request)
     {
+        // sesuaikan dengan field table masing-masing & modelnya
         $kategori = new ArticleCategory();
         $kategori->name = $request->name;
         $kategori->slug = $request->slug;
@@ -40,6 +41,7 @@ class KategoriController extends Controller
             'message' => 'Data Kategori Berhasil dibuat',
             'data' => $kategori,
         ], 201);
+        // $user->password = bcrypt($request->password);
     }
 
     public function show($id)

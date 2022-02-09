@@ -262,7 +262,7 @@ return [
         [
             'text' => 'Article Management',
             'icon' => 'fas fa-fw fa-newspaper',
-            'can' => ['AksesAdmin', 'AksesMember'],
+            'can' => ['AksesAdmin'],
             'submenu' => [
                 [
                     'text' => 'Category',
@@ -275,6 +275,25 @@ return [
                 [
                     'text' => 'Tag',
                     'url' => 'admin/article-tag',
+                ],
+            ],
+        ],
+        [
+            'text' => 'Product Management',
+            'icon' => 'fas fa-fw fa-laptop',
+            'can' => ['AksesAdmin'],
+            'submenu' => [
+                [
+                    'text' => 'Category',
+                    'url' => 'admin/product-category',
+                ],
+                [
+                    'text' => 'Product',
+                    'url' => 'admin/product',
+                ],
+                [
+                    'text' => 'Tag',
+                    'url' => 'admin/product-tag',
                 ],
             ],
         ],

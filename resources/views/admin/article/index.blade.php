@@ -66,8 +66,8 @@
                                             <td>{{ $article->title }}</td>
                                             <td>{{ $article->User->name }}</td>
                                             <td>
-                                                <img src="{{ $article->image() }}" value="{{ $article->image }}"
-                                                    style="height: 100px; width:100px;" alt="">
+                                                <img src="{{ $article->image() }}" style="height: 100px; width:100px;"
+                                                    alt="">
                                             </td>
                                             <td>{{ $article->Category->name }}</td>
                                             <td>
