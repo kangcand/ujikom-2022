@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use Alert;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\ArticleCategory;
@@ -72,10 +73,11 @@ class ArticleController extends Controller
         $article->save();
         $article->ArticleTag()->attach($request->tags);
 
-        Session::flash("flash_notification", [
-            "level" => "success",
-            "message" => "data berhasil dibuat",
-        ]);
+        // Session::flash("flash_notification", [
+        //     "level" => "success",
+        //     "message" => "data berhasil dibuat",
+        // ]);
+        Alert::success('Good Job', 'data saved successfully');
         return redirect()->route('article.index');
 
     }

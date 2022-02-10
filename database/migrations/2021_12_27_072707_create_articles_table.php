@@ -21,8 +21,6 @@ class CreateArticlesTable extends Migration
             $table->text('content');
             $table->string('foto');
             $table->unsignedInteger('user_id');
-            // fk
-            $table->foreign('category_id')->references('article_categories')->on('id')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -23,22 +23,10 @@ class ArticleCategory extends Model
     public static function boot()
     {
         parent::boot();
-        self::deleting(function ($category) {
+        self::deleting(function ($parameter) {
             // mengecek apakah article masih punya category
-            if ($category->Article->count() > 0) {
-                // // menyiapkan pesan error
-                // $html = 'Category can not be deleted because it still has article : ';
-                // $html .= '<ul>';
-                // foreach ($category->Article as $article) {
-                //     $html .= "<li>$article->title</li>";
-                // }
-                // $html .= '</ul>';
-                Alert::error('Failed', 'Data not deleted');
-                // Session::flash("flash_notification", [
-                //     "level" => "danger",
-                //     "message" => $html,
-                // ]);
-                // cancel delete process
+            if ($parameter->Article->count() > 0) {
+                Alert::error('Failed', 'Data not deleted because category have article');
                 return false;
             }
         });

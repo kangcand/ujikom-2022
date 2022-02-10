@@ -115,11 +115,7 @@ class ArticleCategoryController extends Controller
         if (!ArticleCategory::destroy($id)) {
             return redirect()->back();
         }
-        Alert::success('Success', 'Data deleted successfully');
-        Session::flash("flash_notification", [
-            "level" => "success",
-            "message" => "Data deleted successfully",
-        ]);
+        Alert::success('Good Job', 'Data deleted successfully');
         return redirect()->route('article-category.index');
     }
 }

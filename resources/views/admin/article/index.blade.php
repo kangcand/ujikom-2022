@@ -32,6 +32,27 @@
             $('#article').DataTable();
         });
     </script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+         $('.delete-confirm').click(function(event) {
+          var form =  $(this).closest("form");
+          var name = $(this).data("name");
+          event.preventDefault();
+          swal({
+                title: `Are you sure you want to delete this record?`,
+                text: "If you delete this, it will be gone forever.",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+                position: 'center',
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+              form.submit();
+            }
+          });
+      });
+    </script>
 @endsection
 
 @section('content')
@@ -84,8 +105,7 @@
                                                     <a href="{{ route('article.show', $article->id) }}"
                                                         class="btn btn-outline btn-sm btn-outline-info">Show
                                                     </a>
-                                                    <button type="submit" class="btn btn-outline btn-sm btn-outline-danger"
-                                                        onclick="return confirm('Are you Sure?')">Delete</button>
+                                                    <button type="submit" class="btn btn-outline btn-sm btn-outline-danger delete-confirm">Delete</button>
                                                 </form>
                                             </td>
                                         </tr>
