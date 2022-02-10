@@ -152,33 +152,36 @@
                     </div>
 
                     <div class="pagination-arrow">
-                        <a href="#" class="btn-prev-wrap">
-                            <svg class="btn-prev">
-                                <use xlink:href="#arrow-left"></use>
-                            </svg>
-                            <div class="btn-content">
-                                <div class="btn-content-title">
-                                    Next Post
+                        @if (isset($previous))
+                            <a href="/blog/{{ $previous->slug }}" class="btn-prev-wrap">
+                                <svg class="btn-prev">
+                                    <use xlink:href="#arrow-left"></use>
+                                </svg>
+                                <div class="btn-content">
+                                    <div class="btn-content-title">
+                                        Previous Post
+                                    </div>
+                                    <p class="btn-content-subtitle">
+                                        {{ $previous->title }}
+                                    </p>
                                 </div>
-                                <p class="btn-content-subtitle">
-                                    Claritas Est Etiam Processus
-                                </p>
-                            </div>
-                        </a>
-
-                        <a href="#" class="btn-next-wrap">
-                            <div class="btn-content">
-                                <div class="btn-content-title">
-                                    Previous Post
+                            </a>
+                        @endif
+                        @if (isset($next))
+                            <a href="/blog/{{ $next->slug }}" class="btn-next-wrap">
+                                <div class="btn-content">
+                                    <div class="btn-content-title">
+                                        Next Post
+                                    </div>
+                                    <p class="btn-content-subtitle">
+                                        {{ $next->title }}
+                                    </p>
                                 </div>
-                                <p class="btn-content-subtitle">
-                                    Duis Autem Velius
-                                </p>
-                            </div>
-                            <svg class="btn-next">
-                                <use xlink:href="#arrow-right"></use>
-                            </svg>
-                        </a>
+                                <svg class="btn-next">
+                                    <use xlink:href="#arrow-right"></use>
+                                </svg>
+                            </a>
+                        @endif
                     </div>
                 </div>
 

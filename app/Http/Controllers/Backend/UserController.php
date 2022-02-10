@@ -1,20 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Backend;
 
-use App\Models\ArticleTag;
+use App\Http\Controllers\Controller;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Session;
-use Str;
 
-class ArticleTagController extends Controller
+class UserController extends Controller
 {
-
     public function index()
     {
+        $users = User::all();
+        $roles = Role::all();
         $no = 1;
-        $tags = ArticleTag::all();
-        return view('admin.articleTag.index', compact('no', 'tags'));
+        return view('admin.users.index', compact('users', 'roles', 'no'));
     }
 
     /**
@@ -24,7 +25,7 @@ class ArticleTagController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -36,27 +37,33 @@ class ArticleTagController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:article_tags',
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'role' => 'required',
         ]);
 
-        $tags = new ArticleTag;
-        $tags->name = $request->name;
-        $tags->slug = Str::slug($request->name, '-');
-        $tags->save();
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->save();
+        $user->attachRoles($request->role);
         Session::flash("flash_notification", [
             "level" => "success",
             "message" => "Data saved successfully",
         ]);
-        return redirect()->route('article-tag.index');
+        return redirect()->route('users.index');
+
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ArticleTag  $ArticleTag
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(ArticleTag $ArticleTag)
+    public function show($id)
     {
         //
     }
@@ -64,7 +71,7 @@ class ArticleTagController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ArticleTag  $ArticleTag
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -76,42 +83,48 @@ class ArticleTagController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ArticleTag  $ArticleTag
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required',
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'role' => 'required',
         ]);
 
-        $tags = ArticleTag::findOrFail($id);
-        $tags->name = $request->name;
-        $tags->slug = Str::slug($request->name, '-');
-        $tags->save();
+        $user = User::findOrFail($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->save();
+        $user->syncRoles($request->role);
         Session::flash("flash_notification", [
             "level" => "success",
             "message" => "Data edited successfully",
         ]);
-        return redirect()->route('article-tag.index');
+        return redirect()->route('users.index');
+
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ArticleTag  $ArticleTag
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-
-        if (!ArticleTag::destroy($id)) {
-            return redirect()->back();
-        }
+        $user = User::findOrFail($id);
+        $user->delete();
+        $user->detachRole($id);
         Session::flash("flash_notification", [
             "level" => "success",
             "message" => "Data deleted successfully",
         ]);
-        return redirect()->route('article-tag.index');
+        return redirect()->route('users.index');
+
     }
 }

@@ -1,24 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Backend;
 
-use App\Models\ArticleCategory;
+use App\Http\Controllers\Controller;
+use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use Session;
 use Str;
 
-class ArticleCategoryController extends Controller
+class ProductCategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $no = 1;
-        $categories = ArticleCategory::all();
-        return view('admin.articleCategory.index', compact('no', 'categories'));
+        $categories = ProductCategory::all();
+        return view('admin.productCategory.index', compact('no', 'categories'));
     }
 
     /**
@@ -40,10 +37,10 @@ class ArticleCategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:article_categories',
+            'name' => 'required|unique:product_categories',
         ]);
 
-        $categories = new ArticleCategory;
+        $categories = new ProductCategory;
         $categories->name = $request->name;
         $categories->slug = Str::slug($request->name, '-');
         $categories->save();
@@ -51,16 +48,16 @@ class ArticleCategoryController extends Controller
             "level" => "success",
             "message" => "Data saved successfully",
         ]);
-        return redirect()->route('article-category.index');
+        return redirect()->route('product-category.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ArticleCategory  $articleCategory
+     * @param  \App\Models\ProductCategory  $ProductCategory
      * @return \Illuminate\Http\Response
      */
-    public function show(ArticleCategory $articleCategory)
+    public function show(ProductCategory $ProductCategory)
     {
         //
     }
@@ -68,7 +65,7 @@ class ArticleCategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ArticleCategory  $articleCategory
+     * @param  \App\Models\ProductCategory  $ProductCategory
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -80,7 +77,7 @@ class ArticleCategoryController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ArticleCategory  $articleCategory
+     * @param  \App\Models\ProductCategory  $ProductCategory
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -89,7 +86,7 @@ class ArticleCategoryController extends Controller
             'name' => 'required',
         ]);
 
-        $categories = ArticleCategory::findOrFail($id);
+        $categories = ProductCategory::findOrFail($id);
         $categories->name = $request->name;
         $categories->slug = Str::slug($request->name, '-');
         $categories->save();
@@ -97,25 +94,25 @@ class ArticleCategoryController extends Controller
             "level" => "success",
             "message" => "Data edited successfully",
         ]);
-        return redirect()->route('article-category.index');
+        return redirect()->route('product-category.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ArticleCategory  $articleCategory
+     * @param  \App\Models\ProductCategory  $ProductCategory
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
 
-        if (!ArticleCategory::destroy($id)) {
+        if (!ProductCategory::destroy($id)) {
             return redirect()->back();
         }
         Session::flash("flash_notification", [
             "level" => "success",
             "message" => "Data deleted successfully",
         ]);
-        return redirect()->route('article-category.index');
+        return redirect()->route('product-category.index');
     }
 }

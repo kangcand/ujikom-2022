@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Backend;
 
-use App\Models\Role;
-use App\Models\User;
+use App\Http\Controllers\Controller;
+use App\Models\ProductTag;
 use Illuminate\Http\Request;
 use Session;
+use Str;
 
-class UserController extends Controller
+class ProductTagController extends Controller
 {
     public function index()
     {
-        $users = User::all();
-        $roles = Role::all();
         $no = 1;
-        return view('admin.users.index', compact('users', 'roles', 'no'));
+        $tags = ProductTag::all();
+        return view('admin.productTag.index', compact('no', 'tags'));
     }
 
     /**
@@ -24,7 +24,7 @@ class UserController extends Controller
      */
     public function create()
     {
-
+        //
     }
 
     /**
@@ -36,33 +36,27 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
-            'role' => 'required',
+            'name' => 'required|unique:product_tags',
         ]);
 
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = bcrypt($request->password);
-        $user->save();
-        $user->attachRoles($request->role);
+        $tags = new ProductTag;
+        $tags->name = $request->name;
+        $tags->slug = Str::slug($request->name, '-');
+        $tags->save();
         Session::flash("flash_notification", [
             "level" => "success",
             "message" => "Data saved successfully",
         ]);
-        return redirect()->route('users.index');
-
+        return redirect()->route('product-tag.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\ProductTag  $ProductTag
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(ProductTag $ProductTag)
     {
         //
     }
@@ -70,7 +64,7 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\ProductTag  $ProductTag
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -82,48 +76,42 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\ProductTag  $ProductTag
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
-            'role' => 'required',
+            'name' => 'required',
         ]);
 
-        $user = User::findOrFail($id);
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = bcrypt($request->password);
-        $user->save();
-        $user->syncRoles($request->role);
+        $tags = ProductTag::findOrFail($id);
+        $tags->name = $request->name;
+        $tags->slug = Str::slug($request->name, '-');
+        $tags->save();
         Session::flash("flash_notification", [
             "level" => "success",
             "message" => "Data edited successfully",
         ]);
-        return redirect()->route('users.index');
-
+        return redirect()->route('product-tag.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\ProductTag  $ProductTag
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
-        $user->delete();
-        $user->detachRole($id);
+
+        if (!ProductTag::destroy($id)) {
+            return redirect()->back();
+        }
         Session::flash("flash_notification", [
             "level" => "success",
             "message" => "Data deleted successfully",
         ]);
-        return redirect()->route('users.index');
-
+        return redirect()->route('product-tag.index');
     }
 }

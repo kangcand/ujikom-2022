@@ -176,6 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         // add on
         Barryvdh\DomPDF\ServiceProvider::class,
+        RealRashid\SweetAlert\SweetAlertServiceProvider::class,
 
     ],
 
@@ -233,6 +234,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         // add on
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
+
     ],
 
 ];

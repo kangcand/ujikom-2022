@@ -16,13 +16,15 @@ class FrontController extends Controller
     // example
     public function blog()
     {
-        $article = Article::all();
+        $article = Article::orderBy('created_at', 'desc')->paginate(4);
         return view('front.blog.blog', compact('article'));
     }
 
     public function singleBlog(Article $article)
     {
-        return view('front.blog.singleblog', compact('article'));
+        $previous = Article::where('id', '<', $article->id)->orderBy('id', 'desc')->first();
+        $next = Article::where('id', '>', $article->id)->orderBy('id')->first();
+        return view('front.blog.singleblog', compact('article', 'next', 'previous'));
     }
 
     public function blogtag(ArticleTag $tag)

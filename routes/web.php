@@ -1,21 +1,21 @@
 <?php
 
-use App\Http\Controllers\ArticleCategoryController;
-use App\Http\Controllers\ArticleController;
-use App\Http\Controllers\ArticleTagController;
+use App\Http\Controllers\Backend\ArticleCategoryController;
+use App\Http\Controllers\Backend\ArticleController;
+use App\Http\Controllers\Backend\ArticleTagController;
+use App\Http\Controllers\Backend\ProductCategoryController;
+use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\ProductTagController;
+use App\Http\Controllers\Backend\ReportController;
+use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\FrontController;
-use App\Http\Controllers\ProductCategoryController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ProductTagController;
-use App\Http\Controllers\ReportController;
-use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Auth::routes([
     'register' => false,
 ]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\Backend\HomeController::class, 'index'])->name('home');
 
 // route admin
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']],

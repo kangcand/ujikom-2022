@@ -22,7 +22,7 @@
 @endsection
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('DataTables/datatables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('DataTables/datatables.min.css') }}">
 @endsection
 
 @section('js')
@@ -93,5 +93,3 @@
         </div>
     </div>
 @endsection
-
-

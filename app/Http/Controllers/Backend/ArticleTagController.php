@@ -1,19 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Backend;
 
-use App\Models\ProductTag;
+use App\Http\Controllers\Controller;
+use App\Models\ArticleTag;
 use Illuminate\Http\Request;
 use Session;
 use Str;
 
-class ProductTagController extends Controller
+class ArticleTagController extends Controller
 {
+
     public function index()
     {
         $no = 1;
-        $tags = ProductTag::all();
-        return view('admin.productTag.index', compact('no', 'tags'));
+        $tags = ArticleTag::all();
+        return view('admin.articleTag.index', compact('no', 'tags'));
     }
 
     /**
@@ -35,10 +37,10 @@ class ProductTagController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:product_tags',
+            'name' => 'required|unique:article_tags',
         ]);
 
-        $tags = new ProductTag;
+        $tags = new ArticleTag;
         $tags->name = $request->name;
         $tags->slug = Str::slug($request->name, '-');
         $tags->save();
@@ -46,16 +48,16 @@ class ProductTagController extends Controller
             "level" => "success",
             "message" => "Data saved successfully",
         ]);
-        return redirect()->route('product-tag.index');
+        return redirect()->route('article-tag.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ProductTag  $ProductTag
+     * @param  \App\Models\ArticleTag  $ArticleTag
      * @return \Illuminate\Http\Response
      */
-    public function show(ProductTag $ProductTag)
+    public function show(ArticleTag $ArticleTag)
     {
         //
     }
@@ -63,7 +65,7 @@ class ProductTagController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ProductTag  $ProductTag
+     * @param  \App\Models\ArticleTag  $ArticleTag
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -75,7 +77,7 @@ class ProductTagController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ProductTag  $ProductTag
+     * @param  \App\Models\ArticleTag  $ArticleTag
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -84,7 +86,7 @@ class ProductTagController extends Controller
             'name' => 'required',
         ]);
 
-        $tags = ProductTag::findOrFail($id);
+        $tags = ArticleTag::findOrFail($id);
         $tags->name = $request->name;
         $tags->slug = Str::slug($request->name, '-');
         $tags->save();
@@ -92,25 +94,25 @@ class ProductTagController extends Controller
             "level" => "success",
             "message" => "Data edited successfully",
         ]);
-        return redirect()->route('product-tag.index');
+        return redirect()->route('article-tag.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ProductTag  $ProductTag
+     * @param  \App\Models\ArticleTag  $ArticleTag
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
 
-        if (!ProductTag::destroy($id)) {
+        if (!ArticleTag::destroy($id)) {
             return redirect()->back();
         }
         Session::flash("flash_notification", [
             "level" => "success",
             "message" => "Data deleted successfully",
         ]);
-        return redirect()->route('product-tag.index');
+        return redirect()->route('article-tag.index');
     }
 }

@@ -108,24 +108,7 @@
                     @endforeach
 
                 </main>
-
-                <div class="row">
-                    <div class="col-lg-12">
-                        <nav class="navigation">
-
-                            <a href="#" class="page-numbers current bg-border-color"><span>1</span></a>
-                            <a href="#" class="page-numbers bg-border-color"><span>2</span></a>
-                            <a href="#" class="page-numbers bg-border-color"><span>3</span></a>
-                            <a href="#" class="page-numbers bg-border-color"><span>4</span></a>
-                            <a href="#" class="page-numbers next">
-                                <svg class="btn-next">
-                                    <use xlink:href="#arrow-right"></use>
-                                </svg>
-                            </a>
-
-                        </nav>
-                    </div>
-                </div>
+                {{ $article->links('vendor.pagination.custom') }}
             </div>
 
 
