@@ -10,7 +10,7 @@ use App\Http\Controllers\Backend\ReportController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\FrontController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\PendaftaranController;
 Auth::routes([
     'register' => false,
 ]);
@@ -63,3 +63,10 @@ Route::group(['prefix' => '/'], function () {
     Route::get('blog-category/{category}', [FrontController::class, 'blogcategory']);
 
 });
+
+
+// pendaftaran
+Route::get('peserta', [PendaftaranController::class, 'peserta']);
+Route::post('peserta/persyaratan', [PendaftaranController::class, 'persyaratan']);
+Route::post('daftar', [PendaftaranController::class, 'storePeserta']);
+Route::get('profilepeserta', [PendaftaranController::class, 'profilePeserta']);

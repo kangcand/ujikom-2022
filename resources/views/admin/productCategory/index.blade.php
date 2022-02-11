@@ -32,6 +32,8 @@
             $('#productCategory').DataTable();
         });
     </script>
+    <script src="{{asset('js/sweetalert2.js')}}"></script>
+    <script src="{{asset('js/delete.js')}}"></script>
 @endsection
 
 @section('content')
@@ -76,8 +78,7 @@
                                                     <a class="btn btn-outline btn-sm btn-outline-info" data-toggle="modal"
                                                         data-target=".productCategory-show-{{ $category->id }}">Show
                                                     </a>
-                                                    <button type="submit" class="btn btn-outline btn-sm btn-outline-danger"
-                                                        onclick="return confirm('Are you Sure?')">Delete</button>
+                                                    <button type="submit" class="btn btn-outline btn-sm btn-outline-danger delete-confirm">Delete</button>
                                                 </form>
                                             </td>
                                         </tr>

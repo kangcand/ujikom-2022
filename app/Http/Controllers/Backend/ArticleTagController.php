@@ -37,7 +37,7 @@ class ArticleTagController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:article_tags',
+            'name' => 'required|numeric|unique:article_tags',
         ]);
 
         $tags = new ArticleTag;

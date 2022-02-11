@@ -7,7 +7,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Session;
-
+use Alert;
 class UserController extends Controller
 {
     public function index()
@@ -49,10 +49,7 @@ class UserController extends Controller
         $user->password = bcrypt($request->password);
         $user->save();
         $user->attachRoles($request->role);
-        Session::flash("flash_notification", [
-            "level" => "success",
-            "message" => "Data saved successfully",
-        ]);
+        Alert::success('Good Job','Data saved successfully')->autoClose(2000);
         return redirect()->route('users.index');
 
     }
@@ -101,10 +98,7 @@ class UserController extends Controller
         $user->password = bcrypt($request->password);
         $user->save();
         $user->syncRoles($request->role);
-        Session::flash("flash_notification", [
-            "level" => "success",
-            "message" => "Data edited successfully",
-        ]);
+        Alert::success('Good Job','Data edited successfully')->autoClose(2000);
         return redirect()->route('users.index');
 
     }
@@ -120,10 +114,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
         $user->detachRole($id);
-        Session::flash("flash_notification", [
-            "level" => "success",
-            "message" => "Data deleted successfully",
-        ]);
+        Alert::success('Good Job','Data deleted successfully')->autoClose(2000);
         return redirect()->route('users.index');
 
     }
