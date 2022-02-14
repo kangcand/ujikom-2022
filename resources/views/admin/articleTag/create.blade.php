@@ -12,7 +12,12 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="">Tag Name</label>
-                        <input type="text" class="form-control" name="name" required>
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" required>
+                        @error('name')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                 </div>
                 <div class="modal-footer">

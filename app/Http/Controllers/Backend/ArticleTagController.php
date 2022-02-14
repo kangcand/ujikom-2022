@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Backend;
 
+use Alert;
 use App\Http\Controllers\Controller;
 use App\Models\ArticleTag;
 use Illuminate\Http\Request;
-use Session;
 use Str;
+use Validator;
 
 class ArticleTagController extends Controller
 {
@@ -36,18 +37,26 @@ class ArticleTagController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|numeric|unique:article_tags',
-        ]);
+        $rules = [
+            'name' => 'required|unique:article_tags',
+        ];
+
+        $message = [
+            'name.required' => 'Nama Tag Tidak Boleh Kosong',
+            'name.unique' => 'Nama Tag tidak boleh sama',
+        ];
+
+        $validation = Validator::make($request->all(), $rules, $message);
+        if ($validation->fails()) {
+            Alert::error('Oops', 'Data yang anda input tidak valid, silahkan di ulang')->autoclose(2000);
+            return back()->withErrors($validation)->withInput();
+        }
 
         $tags = new ArticleTag;
         $tags->name = $request->name;
         $tags->slug = Str::slug($request->name, '-');
         $tags->save();
-        Session::flash("flash_notification", [
-            "level" => "success",
-            "message" => "Data saved successfully",
-        ]);
+        Alert::success('Good Job', 'data saved successfully');
         return redirect()->route('article-tag.index');
     }
 
@@ -82,18 +91,26 @@ class ArticleTagController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
+        $rules = [
             'name' => 'required',
-        ]);
+        ];
+
+        $message = [
+            'name.required' => 'Nama Tag Tidak Boleh Kosong',
+            // 'name.unique' => 'Nama Tag tidak boleh sama',
+        ];
+
+        $validation = Validator::make($request->all(), $rules, $message);
+        if ($validation->fails()) {
+            Alert::error('Oops', 'Data yang anda input tidak valid, silahkan di ulang')->autoclose(2000);
+            return back()->withErrors($validation)->withInput();
+        }
 
         $tags = ArticleTag::findOrFail($id);
         $tags->name = $request->name;
         $tags->slug = Str::slug($request->name, '-');
         $tags->save();
-        Session::flash("flash_notification", [
-            "level" => "success",
-            "message" => "Data edited successfully",
-        ]);
+        Alert::success('Good Job', 'data edited successfully');
         return redirect()->route('article-tag.index');
     }
 
@@ -109,10 +126,7 @@ class ArticleTagController extends Controller
         if (!ArticleTag::destroy($id)) {
             return redirect()->back();
         }
-        Session::flash("flash_notification", [
-            "level" => "success",
-            "message" => "Data deleted successfully",
-        ]);
+        Alert::success('Good Job', 'data deleted successfully');
         return redirect()->route('article-tag.index');
     }
 }
