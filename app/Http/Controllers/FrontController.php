@@ -10,7 +10,8 @@ class FrontController extends Controller
 {
     public function index()
     {
-        return view('front.index');
+        $article = Article::orderBy('created_at', 'desc')->take(3)->get();
+        return view('front.index', compact('article'));
     }
 
     // example

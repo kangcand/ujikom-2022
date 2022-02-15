@@ -8,7 +8,7 @@ use App\Models\ArticleCategory;
 use Illuminate\Http\Request;
 use Session;
 use Str;
-
+use Validator;
 class ArticleCategoryController extends Controller
 {
     /**
@@ -41,19 +41,26 @@ class ArticleCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|unique:article_categories',
-        ]);
+        $rules = [
+            'name' => 'required|unique:article_tags',
+        ];
+
+        $message = [
+            'name.required' => 'Nama Tag Tidak Boleh Kosong',
+            'name.unique' => 'Nama Tag tidak boleh sama',
+        ];
+
+        $validation = Validator::make($request->all(), $rules, $message);
+        if ($validation->fails()) {
+            Alert::error('Oops', 'Data yang anda input tidak valid, silahkan di ulang')->autoclose(2000);
+            return back()->withErrors($validation)->withInput();
+        }
 
         $categories = new ArticleCategory;
         $categories->name = $request->name;
         $categories->slug = Str::slug($request->name, '-');
         $categories->save();
-        Alert::success('Berhasil', 'Data Berhasil disimpan');
-        Session::flash("flash_notification", [
-            "level" => "success",
-            "message" => "Data saved successfully",
-        ]);
+        Alert::success('Good Job', 'Data Berhasil disimpan');
         return redirect()->route('article-category.index');
     }
 

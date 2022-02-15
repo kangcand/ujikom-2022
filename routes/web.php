@@ -65,8 +65,3 @@ Route::group(['prefix' => '/'], function () {
 });
 
 
-// pendaftaran
-Route::get('peserta', [PendaftaranController::class, 'peserta']);
-Route::post('peserta/persyaratan', [PendaftaranController::class, 'persyaratan']);
-Route::post('daftar', [PendaftaranController::class, 'storePeserta']);
-Route::get('profilepeserta', [PendaftaranController::class, 'profilePeserta']);

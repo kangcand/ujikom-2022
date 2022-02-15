@@ -11,7 +11,7 @@
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item">
                             <a href="#">
-                                Article
+                                Product
                             </a>
                         </li>
                     </ol>
@@ -29,28 +29,7 @@
     <script src="{{ asset('DataTables/datatables.min.js') }}"></script>
     <script>
         $(document).ready(function() {
-            $('#article').DataTable();
-        });
-    </script>
-    <script src="{{asset('js/sweetalert2.js')}}"></script>
-    <script>
-        $('.delete-confirm').click(function(event) {
-            var form = $(this).closest("form");
-            var name = $(this).data("name");
-            event.preventDefault();
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    form.submit();
-                }
-            })
+            $('#product').DataTable();
         });
     </script>
 @endsection
@@ -62,7 +41,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">Article
-                        <a href="{{ route('article.create') }}" style="float: right;"
+                        <a href="{{ route('product.create') }}" style="float: right;"
                             class="btn btn-sm  btn-outline-primary">Add Data
                         </a>
                     </div>
@@ -72,40 +51,41 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Title</th>
-                                        <th>Author</th>
-                                        <th>Image</th>
+                                        <th>Product Name</th>
+                                        <th>Price</th>
                                         <th>Category</th>
                                         <th>Tags</th>
+                                        <th>Image</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($articles as $article)
+                                    @foreach ($product as $data)
                                         <tr>
                                             <td>{{ $no++ }}</td>
-                                            <td>{{ $article->title }}</td>
-                                            <td>{{ $article->User->name }}</td>
+                                            <td>{{ $data->title }}</td>
+                                            <td>{{ $data->User->name }}</td>
                                             <td>
-                                                <img src="{{ $article->image() }}" style="height: 100px; width:100px;"
+                                                <img src="{{ $data->image() }}" style="height: 100px; width:100px;"
                                                     alt="">
                                             </td>
-                                            <td>{{ $article->Category->name }}</td>
+                                            <td>{{ $data->Category->name }}</td>
                                             <td>
-                                                @foreach ($article->ArticleTag as $tags)
+                                                @foreach ($data->Tag as $tags)
                                                     <li>{{ $tags->name }}</li>
                                                 @endforeach
                                             </td>
                                             <td>
-                                                <form action="{{ route('article.destroy', $article->id) }}" method="post">
+                                                <form action="{{ route('product.destroy', $data->id) }}" method="post">
                                                     @method('delete')
                                                     @csrf
-                                                    <a href="{{ route('article.edit', $article->id) }}"
+                                                    <a href="{{ route('product.edit', $data->id) }}"
                                                         class="btn btn-outline btn-sm btn-outline-warning">Edit</a>
-                                                    <a href="{{ route('article.show', $article->id) }}"
+                                                    <a href="{{ route('product.show', $data->id) }}"
                                                         class="btn btn-outline btn-sm btn-outline-info">Show
                                                     </a>
-                                                    <button type="submit" class="btn btn-outline btn-sm btn-outline-danger delete-confirm">Delete</button>
+                                                    <button type="submit"
+                                                        class="btn btn-outline btn-sm btn-outline-danger delete-confirm">Delete</button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -118,6 +98,4 @@
             </div>
         </div>
     </div>
-
-
 @endsection

@@ -48,4 +48,9 @@ class Product extends Model
     {
         return 'slug';
     }
+
+    public function productImage()
+    {
+        return $this->hasMany('App\Models\ProductImage', 'product_id');
+    }
 }

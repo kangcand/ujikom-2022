@@ -104,7 +104,8 @@
     {{-- Custom Scripts --}}
     @include('sweetalert::alert')
     @yield('adminlte_js')
-
+    <script src="{{asset('js/sweetalert2.js')}}"></script>
+    <script src="{{asset('js/delete.js')}}"></script>
 </body>
 
 </html>

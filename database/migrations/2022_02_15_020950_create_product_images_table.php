@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePersyaratansTable extends Migration
+class CreateProductImagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreatePersyaratansTable extends Migration
      */
     public function up()
     {
-        Schema::create('persyaratans', function (Blueprint $table) {
+        Schema::create('product_images', function (Blueprint $table) {
             $table->id();
-            $table->string('ijazah');
-            $table->unsignedInteger('id_peserta');
+            $table->string('image');
+            $table->unsignedBigInteger('product_id');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreatePersyaratansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('persyaratans');
+        Schema::dropIfExists('product_images');
     }
 }
