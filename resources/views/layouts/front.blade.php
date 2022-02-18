@@ -757,7 +757,7 @@
     <script src="{{ asset('assets/front/html/js/ScrollMagic.min.js') }}"></script>
     <script src="{{ asset('assets/front/html/js/animation.velocity.min.js') }}"></script>
     @include('sweetalert::alert')
-
+    @yield('scripts')
     <!-- ...end JS Script -->
 
 </body>

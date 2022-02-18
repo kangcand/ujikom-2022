@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\AdminController;
 use App\Http\Controllers\Backend\ArticleCategoryController;
 use App\Http\Controllers\Backend\ArticleController;
 use App\Http\Controllers\Backend\ArticleTagController;
@@ -10,7 +11,7 @@ use App\Http\Controllers\Backend\ReportController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\FrontController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PendaftaranController;
+
 Auth::routes([
     'register' => false,
 ]);
@@ -20,9 +21,8 @@ Route::get('/home', [App\Http\Controllers\Backend\HomeController::class, 'index'
 // route admin
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']],
     function () {
-        Route::get('/', function () {
-            return view('admin.index');
-        });
+        Route::get('/', [AdminController::class, 'index']);
+
         // article route
         Route::resource('article-category', ArticleCategoryController::class);
         Route::resource('article-tag', ArticleTagController::class);
@@ -36,9 +36,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']],
         // user management
         Route::resource('users', UserController::class);
 
-        // report
+        // report pdf
         Route::get('laporan-article', [ReportController::class, 'article'])->name('getArticle');
         Route::post('laporan-article', [ReportController::class, 'reportArticle'])->name('reportArticle');
+        Route::post('print-laporan', [ReportController::class, 'printReport'])->name('printReport');
+
+        // report excel
+        Route::post('laporan/users/export/', [ReportController::class, 'exportExcel']);
 
     });
 
@@ -63,5 +67,3 @@ Route::group(['prefix' => '/'], function () {
     Route::get('blog-category/{category}', [FrontController::class, 'blogcategory']);
 
 });
-
-

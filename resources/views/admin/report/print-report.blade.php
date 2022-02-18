@@ -13,14 +13,7 @@
         {{ $data->title }} -
         {{ $data->created_at->format('d M Y') }}<br>
     @endforeach
-
-    <form action="{{ route('printReport') }}" method="post">
-        <input type="hidden" name="tanggalAwal" value="{{ $start }}">
-        <input type="hidden" name="tanggalAkhir" value="{{ $end }}">
-        @csrf
-        total penulis : {{ $total_pengguna->total_pengguna }}
-        <br><button type="submit">Export PDF</button>
-    </form>
+    total penulis : {{ $total_pengguna->total_pengguna }}
 </body>
 
 </html>

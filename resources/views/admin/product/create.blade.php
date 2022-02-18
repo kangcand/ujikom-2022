@@ -35,8 +35,14 @@
     <script src="{{ asset('select2/select2.min.js') }}"></script>
     <script>
         $(document).ready(function() {
-            $('.multiple').select2();
+            $('.multiple').select2({
+                placeholder: 'Select an option',
+                theme: "classic"
+            });
         });
+
+
+        //Initialize Select2 Elements
     </script>
     <script type="text/javascript">
         tinymce.init({
@@ -61,7 +67,6 @@
             ]
         });
     </script>
-
 @endsection
 
 @section('content')
@@ -83,38 +88,44 @@
                             </div>
                         @endif
                         <form action="{{ route('article.store') }}" method="post" enctype="multipart/form-data">
-                            @csrf
-                            <div class="form-group">
-                                <label for="">Title</label>
-                                <input type="text" name="title" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label for="">Image</label>
-                                <input type="file" name="foto" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label for="">Content</label>
-                                <textarea type="file" name="content" class="form-control"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="">Category</label>
-                                <select name="category_id" class="form-control" id="">
-                                    @foreach ($category as $data)
-                                        <option style="background-color: #414350" value="{{ $data->id }}">
-                                            {{ $data->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="">Tags</label>
-                                <select name="tags[]" class="form-control multiple" id="" multiple="multiple">
-                                    @foreach ($tag as $data)
-                                        <option value="{{ $data->id }}">{{ $data->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-block btn-outline-primary">Save</button>
+                            <div class="form-row">
+                                @csrf
+                                <div class="form-group col-md-12">
+                                    <label for="">Product Name</label>
+                                    <input type="text" name="name" class="form-control">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="">Price</label>
+                                    <input type="text" name="price" class="form-control">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="">Foto</label>
+                                    <input type="file" name="foto" class="form-control">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="">Content</label>
+                                    <textarea type="file" name="content" class="form-control"></textarea>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="">Category</label>
+                                    <select name="category_id" class="form-control" id="">
+                                        @foreach ($category as $data)
+                                            <option style="background-color: #414350" value="{{ $data->id }}">
+                                                {{ $data->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="">Tags</label>
+                                    <select name="tags[]" class="form-control multiple" id="" multiple="multiple">
+                                        @foreach ($tags as $data)
+                                            <option value="{{ $data->id }}">{{ $data->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <button type="submit" class="btn btn-block btn-outline-primary">Save</button>
+                                </div>
                             </div>
                         </form>
                     </div>

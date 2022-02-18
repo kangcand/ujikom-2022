@@ -60,7 +60,6 @@
             $('.multiple').select2();
         });
     </script>
-
 @endsection
 
 @section('content')
@@ -73,6 +72,11 @@
                         <a type="button" style="float: right;" class="btn btn-sm  btn-outline-primary" data-toggle="modal"
                             data-target=".users">Add Data
                         </a>
+                        <form action="{{ url('admin/laporan/users/export') }}" method="post">
+                            @csrf
+                            <button style="float: left;" class="btn btn-sm  btn-outline-info" type="submit">Export User
+                            </button>
+                        </form>
                         @include('admin.users.create')
                     </div>
                     <div class="card-body">

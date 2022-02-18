@@ -177,6 +177,7 @@ return [
         // add on
         Barryvdh\DomPDF\ServiceProvider::class,
         RealRashid\SweetAlert\SweetAlertServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
     ],
 
@@ -235,6 +236,7 @@ return [
         // add on
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 

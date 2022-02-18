@@ -32,8 +32,18 @@
             $('#articleCategory').DataTable();
         });
     </script>
-    <script src="{{asset('js/sweetalert2.js')}}"></script>
-    <script src="{{asset('js/delete.js')}}"></script>
+    <script>
+        let i = 0;
+        $("#add").click(function() {
+            ++i;
+            $("#dynamicInsert").append('<input type="text" class="form-control" name="addmore[' + i +
+                '][name]" />' + '<button type="button" class="btn btn-danger remove-item">Remove</button>'
+            );
+        });
+        $(document).on('click', '.remove-item', function() {
+            $(this).parents('input').remove();
+        });
+    </script>
 @endsection
 
 @section('content')
