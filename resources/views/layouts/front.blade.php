@@ -4,7 +4,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Hehereuyan App</title>
+    <title>Ujikom 2022</title>
 
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/front/html/css/fonts.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/front/html/css/crumina-fonts.css') }}">
