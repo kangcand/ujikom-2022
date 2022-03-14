@@ -13,7 +13,7 @@ class FrontController extends Controller
         $article = Article::orderBy('created_at', 'desc')->take(3)->get();
         return view('front.index', compact('article'));
     }
-
+    //
     public function blog()
     {
         $article = Article::orderBy('created_at', 'desc')->paginate(4);
