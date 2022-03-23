@@ -26,6 +26,7 @@
 @endsection
 
 @section('js')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
     <script src="{{ asset('DataTables/datatables.min.js') }}"></script>
     <script>
         $(document).ready(function() {
@@ -33,15 +34,33 @@
         });
     </script>
     <script>
-        let i = 0;
-        $("#add").click(function() {
-            ++i;
-            $("#dynamicInsert").append('<input type="text" class="form-control" name="addmore[' + i +
-                '][name]" />' + '<button type="button" class="btn btn-danger remove-item">Remove</button>'
-            );
+        $('.addcategory').on('click', function() {
+            addcategory();
         });
-        $(document).on('click', '.remove-item', function() {
-            $(this).parents('input').remove();
+
+        function addcategory() {
+            let kategori =
+            '<div>'+
+                '<div class="form-group">'+
+                    '<label for="">Nama Kategori</label>'+
+                    '<div class="input-group input-group-outline">'+
+                        '<input type="text" name="name[]" autocomplete="off" class="form-control @error('name.*') is-invalid @enderror">@error('name')>'+
+                        '<span class="invalid-feedback" role="alert">'+
+                            '<strong>{{ $message }}</strong>'+
+                        '</span> @enderror'+
+                    '</div>'+
+                '</div>'+
+                '<div class="form-group"> @csrf</div>'+
+                '<div class="form-group">'+
+                    '<a href="#" class="remove btn btn-danger">'+
+                        '<i class="fa fa-trash-alt"></i> Hapus'+
+                    '</a>'+
+                '</div>'+
+            '</div>';
+            $('.kategori').append(kategori);
+        };
+        $('.remove').live('click', function() {
+            $(this).parent().parent().remove();
         });
     </script>
 @endsection

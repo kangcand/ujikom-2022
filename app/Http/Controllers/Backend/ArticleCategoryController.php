@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Session;
 use Str;
 use Validator;
+
 class ArticleCategoryController extends Controller
 {
     /**
@@ -42,7 +43,7 @@ class ArticleCategoryController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name' => 'required|unique:article_tags',
+            'name.*' => 'required|unique:article_tags',
         ];
 
         $message = [
@@ -55,11 +56,16 @@ class ArticleCategoryController extends Controller
             Alert::error('Oops', 'Data yang anda input tidak valid, silahkan di ulang')->autoclose(2000);
             return back()->withErrors($validation)->withInput();
         }
+        if (is_countable($request['name']) && count($request['name']) > 0) {
+            foreach ($request['name'] as $item => $value) {
+                $categories = new ArticleCategory;
+                $categories->name = $request->name[$item];
+                $categories->slug = Str::slug($request->name[$item], '-');
+                // $categories->save();
+                dd($categories);
+            }
 
-        $categories = new ArticleCategory;
-        $categories->name = $request->name;
-        $categories->slug = Str::slug($request->name, '-');
-        $categories->save();
+        }
         Alert::success('Good Job', 'Data Berhasil disimpan');
         return redirect()->route('article-category.index');
     }

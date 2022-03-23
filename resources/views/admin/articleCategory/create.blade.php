@@ -12,12 +12,13 @@
                 @csrf
                 <div class="modal-body" id="dynamicInsert">
                     <center>
-                        <button type="button" name="add" id="add" class="btn btn-success">Add More</button>
+                        <a href="#" class="btn btn-success addcategory"> Add More</a>
                     </center>
                     <div class="form-group" id="">
                         <label for="">Category Name</label>
                         <input type="text" class="form-control" name="name" required>
                     </div>
+                    <div class="kategori"></div>
                 </div>
                 <div class="modal-footer">
                     <button type="reset" class="btn btn-sm btn-outline-secondary" data-dismiss="modal">Reset</button>

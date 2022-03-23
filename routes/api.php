@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\ApiController;
 use App\Http\Controllers\API\KategoriController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
@@ -12,3 +13,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // route api
 Route::resource('kategori', KategoriController::class);
 Route::resource('users', UserController::class);
+
+// api
+Route::get('artikel', [ApiController::class, 'article']);
