@@ -16,3 +16,5 @@ Route::resource('users', UserController::class);
 
 // api
 Route::get('artikel', [ApiController::class, 'article']);
+Route::get('reportPerDay', [ApiController::class, 'reportPerDay']);
+Route::get('reportPerMonth', [ApiController::class, 'reportPerMonth']);
