@@ -25,14 +25,14 @@
 @endsection
 
 @section('js')
-    <script src="https://unpkg.com/echarts/dist/echarts.min.js"></script>
-    <script src="https://unpkg.com/@chartisan/echarts/dist/chartisan_echarts.js"></script>
-    <script>
+    {{-- <script src="https://unpkg.com/echarts/dist/echarts.min.js"></script>
+    <script src="https://unpkg.com/@chartisan/echarts/dist/chartisan_echarts.js"></script> --}}
+    {{-- <script>
         const chart = new Chartisan({
             el: '#chart',
             url: "@chart('article_chart')",
         });
-    </script>
+    </script> --}}
 @endsection
 
 @section('content')
@@ -103,6 +103,6 @@
             </div>
             <!-- ./col -->
         </div>
-        <div id="chart" style="height: 300px;"></div>
+        {{-- <div id="chart" style="height: 300px;"></div> --}}
     </div>
 @endsection

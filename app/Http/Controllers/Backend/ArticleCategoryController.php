@@ -43,12 +43,12 @@ class ArticleCategoryController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name.*' => 'required|unique:article_tags',
+            'name' => 'required|unique:article_categories',
         ];
 
         $message = [
-            'name.required' => 'Nama Tag Tidak Boleh Kosong',
-            'name.unique' => 'Nama Tag tidak boleh sama',
+            'name.required' => 'Nama Kategori Tidak Boleh Kosong',
+            'name.unique' => 'Nama Kategori tidak boleh sama',
         ];
 
         $validation = Validator::make($request->all(), $rules, $message);
@@ -56,18 +56,14 @@ class ArticleCategoryController extends Controller
             Alert::error('Oops', 'Data yang anda input tidak valid, silahkan di ulang')->autoclose(2000);
             return back()->withErrors($validation)->withInput();
         }
-        if (is_countable($request['name']) && count($request['name']) > 0) {
-            foreach ($request['name'] as $item => $value) {
-                $categories = new ArticleCategory;
-                $categories->name = $request->name[$item];
-                $categories->slug = Str::slug($request->name[$item], '-');
-                // $categories->save();
-                dd($categories);
-            }
 
-        }
-        Alert::success('Good Job', 'Data Berhasil disimpan');
+        $categories = new ArticleCategory;
+        $categories->name = $request->name;
+        $categories->slug = Str::slug($request->name, '-');
+        $categories->save();
+        Alert::success('Good Job', 'data saved successfully');
         return redirect()->route('article-category.index');
+
     }
 
     /**

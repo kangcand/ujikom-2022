@@ -26,7 +26,8 @@ class ArticleCategory extends Model
         self::deleting(function ($parameter) {
             // mengecek apakah article masih punya category
             if ($parameter->Article->count() > 0) {
-                Alert::error('Failed', 'Data not deleted because category have article');
+                Alert::error('Failed',
+                'Data not deleted because category have article');
                 return false;
             }
         });

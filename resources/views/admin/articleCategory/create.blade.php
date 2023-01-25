@@ -11,9 +11,9 @@
             <form action="{{ route('article-category.store') }}" method="POST">
                 @csrf
                 <div class="modal-body" id="dynamicInsert">
-                    <center>
+                    {{-- <center>
                         <a href="#" class="btn btn-success addcategory"> Add More</a>
-                    </center>
+                    </center> --}}
                     <div class="form-group" id="">
                         <label for="">Category Name</label>
                         <input type="text" class="form-control" name="name" required>
